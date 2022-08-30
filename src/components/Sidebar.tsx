@@ -1,6 +1,7 @@
 import { memo } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { IoCreateOutline } from "react-icons/io5";
 
 const Sidebar = ({
   noteList,
@@ -32,8 +33,9 @@ const Sidebar = ({
     <aside className="w-[230px] overflow-auto relative">
       <button
         onClick={(e) => handleCreate(e)}
-        className="w-full h-[50px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 border-b border-slate-200"
+        className="flex items-center justify-center gap-x-2 w-full h-[50px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 border-b border-slate-200"
       >
+        <IoCreateOutline />
         Create
       </button>
       {noteList.length > 0 ? (
@@ -42,7 +44,7 @@ const Sidebar = ({
             return (
               <li
                 key={note.key}
-                className={`w-full h-[50px] p-3 mb-3 rounded-md box-border cursor-pointer ${
+                className={`w-full h-[50px] p-3 mb-3 box-border cursor-pointer ${
                   noteKey === note.key
                     ? "bg-slate-200 hover:bg-slate-200"
                     : "hover:bg-slate-100"
