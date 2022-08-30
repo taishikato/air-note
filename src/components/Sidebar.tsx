@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { memo } from "react";
+import { css, cx } from "@emotion/css";
 import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
 import { getNoteList } from "../_utils/getNoteList";
@@ -42,6 +43,15 @@ const Sidebar = ({
     setNoteList(notes);
   };
 
+  const handleDelete = (noteKey: string) => {
+    if (!window.confirm("Do you really want to delete the note?")) return;
+
+    localStorage.removeItem(noteKey);
+
+    const notes = getNoteList();
+    setNoteList(notes);
+  };
+
   return (
     <aside className="w-[230px] overflow-auto relative">
       <button
@@ -57,14 +67,28 @@ const Sidebar = ({
             return (
               <li
                 key={note.key}
-                className={`w-full h-[50px] p-3 mb-3 box-border cursor-pointer ${
+                onClick={(e) => handler(e, note.key)}
+                className={cx([
+                  "flex items-center justify-between gap-x-2 w-full h-[50px] p-3 mb-3 box-border cursor-pointer",
                   noteKey === note.key
                     ? "bg-slate-200 hover:bg-slate-200"
-                    : "hover:bg-slate-100"
-                }`}
-                onClick={(e) => handler(e, note.key)}
+                    : "hover:bg-slate-100",
+                  css`
+                    &:hover svg {
+                      display: block;
+                    },
+                  `,
+                ])}
               >
                 {note.content.slice(0, 10) || "No Title"}
+                <IoTrashOutline
+                  className="hidden"
+                  onClick={(e) => {
+                    e.preventDefault();
+
+                    handleDelete(note.key);
+                  }}
+                />
               </li>
             );
           })}
