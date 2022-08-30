@@ -34,16 +34,15 @@ function App() {
   useEffect(() => {
     const notes = getNoteList();
 
-    // localStorage.clear();
-
     if (notes.length === 0) {
       handleCreate();
+      const notes = getNoteList();
+      setNoteList(notes);
       return;
     }
 
     setNoteList(notes);
     setNoteKey(notes[0].key);
-    // localStorage.clear();
   }, []);
 
   const handleOnChange = useCallback(
