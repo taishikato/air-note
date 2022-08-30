@@ -1,7 +1,7 @@
-import { memo } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import { memo } from "react";
+import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
-import { IoCreateOutline } from "react-icons/io5";
 import { getNoteList } from "../_utils/getNoteList";
 
 const Sidebar = ({
@@ -64,7 +64,7 @@ const Sidebar = ({
                 }`}
                 onClick={(e) => handler(e, note.key)}
               >
-                {note.content.slice(0, 10) || "Empty note"}
+                {note.content.slice(0, 10) || "No Title"}
               </li>
             );
           })}
