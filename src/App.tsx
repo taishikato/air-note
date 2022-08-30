@@ -38,11 +38,13 @@ function App() {
       handleCreate();
       const notes = getNoteList();
       setNoteList(notes);
+      setContent(notes[0].content);
       return;
     }
 
     setNoteList(notes);
     setNoteKey(notes[0].key);
+    setContent(notes[0].content);
   }, []);
 
   const handleOnChange = useCallback(
