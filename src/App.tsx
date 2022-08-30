@@ -79,18 +79,16 @@ function App() {
 
   return (
     <div className="relative flex flex-col items-center justify-center h-full min-h-screen">
-      {/* <div className="flex justify-end mb-2">
-          <button
-            className="p-2 font-medium rounded-md text-slate-400 hover:bg-slate-200"
-            onClick={(e) => {
-              e.preventDefault();
+      <button
+        className="absolute px-5 py-3 text-sm font-medium border rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 top-4 right-6 shadow-button"
+        onClick={(e) => {
+          e.preventDefault();
 
-              setShowPre(!showPre);
-            }}
-          >
-            {showPre ? "Hide Preview" : "Show Preview"}
-          </button>
-        </div> */}
+          setShowPre(!showPre);
+        }}
+      >
+        {showPre ? "Hide Preview" : "Show Preview"}
+      </button>
       <div className="flex w-full h-screen">
         <Sidebar
           noteList={noteList}
