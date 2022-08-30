@@ -2,12 +2,14 @@ import { memo } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { IoCreateOutline } from "react-icons/io5";
+import { getNoteList } from "../_utils/getNoteList";
 
 const Sidebar = ({
   noteList,
   handler,
   noteKey,
   setNoteKey,
+  setNoteList,
 }: {
   noteList: {
     key: string;
@@ -19,6 +21,14 @@ const Sidebar = ({
   ) => void;
   noteKey: string;
   setNoteKey: Dispatch<SetStateAction<string>>;
+  setNoteList: (
+    value: SetStateAction<
+      {
+        key: string;
+        content: any;
+      }[]
+    >
+  ) => void;
 }) => {
   const handleCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -27,6 +37,9 @@ const Sidebar = ({
 
     localStorage.setItem(newNoteKey, "");
     setNoteKey(newNoteKey);
+
+    const notes = getNoteList();
+    setNoteList(notes);
   };
 
   return (

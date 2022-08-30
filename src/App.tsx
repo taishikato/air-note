@@ -3,13 +3,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SaveButton from "./components/SaveButton";
 import Sidebar from "./components/Sidebar";
-
-const getNoteList = () =>
-  Object.keys(localStorage)
-    .sort()
-    .map((noteKey) => {
-      return { key: noteKey, content: localStorage[noteKey] };
-    });
+import { v4 as uuidv4 } from "uuid";
+import { getNoteList } from "./_utils/getNoteList";
 
 function App() {
   const [content, setContent] = useState("");
@@ -25,16 +20,30 @@ function App() {
 
   const previewRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (noteKey.length > 0) return;
+  const handleCreate = (
+    e?: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e?.preventDefault();
 
-    // localStorage.clear();
-  }, []);
+    const newNoteKey = uuidv4();
+
+    localStorage.setItem(newNoteKey, "");
+    setNoteKey(newNoteKey);
+  };
 
   useEffect(() => {
     const notes = getNoteList();
 
+    // localStorage.clear();
+
+    if (notes.length === 0) {
+      handleCreate();
+      return;
+    }
+
     setNoteList(notes);
+    setNoteKey(notes[0].key);
+    // localStorage.clear();
   }, []);
 
   const handleOnChange = useCallback(
@@ -89,6 +98,7 @@ function App() {
           handler={showPastNote}
           noteKey={noteKey}
           setNoteKey={setNoteKey}
+          setNoteList={setNoteList}
         />
         <main className="flex items-stretch flex-1 rounded">
           <div className="flex-1 bg-slate-200">
