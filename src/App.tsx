@@ -89,7 +89,7 @@ function App() {
             {showPre ? "Hide Preview" : "Show Preview"}
           </button>
         </div> */}
-      <div className="flex w-full h-screen gap-x-5">
+      <div className="flex w-full h-screen">
         <Sidebar noteList={noteList} handler={showPastNote} noteId={noteKey} />
         <main className="flex items-stretch flex-1 rounded">
           <div className="flex-1 bg-slate-200">
