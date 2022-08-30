@@ -1,5 +1,4 @@
 import { memo, useEffect, useState, useCallback, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SaveButton from "./components/SaveButton";
@@ -29,12 +28,7 @@ function App() {
   useEffect(() => {
     if (noteKey.length > 0) return;
 
-    const newId = uuidv4();
-    setNoteKey(newId);
-
     // localStorage.clear();
-
-    // localStorage.setItem(newId, content);
   }, []);
 
   useEffect(() => {
@@ -76,7 +70,7 @@ function App() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-screen">
+    <div className="relative flex flex-col items-center justify-center h-full min-h-screen">
       {/* <div className="flex justify-end mb-2">
           <button
             className="p-2 font-medium rounded-md text-slate-400 hover:bg-slate-200"
@@ -90,7 +84,12 @@ function App() {
           </button>
         </div> */}
       <div className="flex w-full h-screen">
-        <Sidebar noteList={noteList} handler={showPastNote} noteId={noteKey} />
+        <Sidebar
+          noteList={noteList}
+          handler={showPastNote}
+          noteKey={noteKey}
+          setNoteKey={setNoteKey}
+        />
         <main className="flex items-stretch flex-1 rounded">
           <div className="flex-1 bg-slate-200">
             <textarea
@@ -112,7 +111,7 @@ function App() {
           </div>
         </main>
       </div>
-      <div className="flex justify-end mt-6">
+      <div className="absolute flex justify-end mt-6 bottom-4 right-6">
         <SaveButton
           handler={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
             handleSave(e)
