@@ -27,7 +27,9 @@ function App() {
 
     const newNoteKey = uuidv4();
 
-    localStorage.setItem(newNoteKey, "");
+    // localStorage.setItem(newNoteKey, "");
+    chrome.storage.sync.set({ newNoteKey: "" });
+
     setNoteKey(newNoteKey);
   };
 
@@ -60,7 +62,8 @@ function App() {
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      localStorage.setItem(noteKey, content);
+      // localStorage.setItem(noteKey, content);
+      chrome.storage.sync.set({ newNoteKey: content });
       const notes = getNoteList();
 
       setNoteList(notes);
