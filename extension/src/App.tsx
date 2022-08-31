@@ -112,7 +112,7 @@ function App() {
           setContent={setContent}
           setNoteList={setNoteList}
         />
-        <main className="flex items-stretch flex-1 rounded">
+        <main className="flex items-stretch flex-1 rounded z-10 shadow-border-l">
           <div className="flex-1 bg-slate-200">
             <textarea
               className="block w-full h-full p-3 focus:outline-none"

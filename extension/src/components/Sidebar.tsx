@@ -69,7 +69,7 @@ const Sidebar = ({
     <aside className="w-[290px] overflow-auto relative bg-slate-50 text-slate-400 font-medium">
       <button
         onClick={(e) => handleCreate(e)}
-        className="font-semibold text-slate-500 flex items-center justify-center gap-x-2 w-full h-[80px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 border-b border-slate-200"
+        className="font-semibold text-slate-500 flex items-center justify-center gap-x-2 w-full h-[80px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 shadow-border-b"
       >
         <IoCreateOutline />
         Create
@@ -81,7 +81,7 @@ const Sidebar = ({
               <li
                 key={note.key}
                 onClick={(e) => handler(e, note.key)}
-                className={`flex items-center justify-between gap-x-2 w-full h-[80px] p-3 mb-1 box-border cursor-pointer note-list-item ${
+                className={`flex items-center justify-between gap-x-2 w-full h-[50px] p-3 mb-1 box-border cursor-pointer note-list-item ${
                   noteKey === note.key
                     ? "text-slate-500 bg-slate-200 hover:bg-slate-200"
                     : "hover:bg-slate-100"
