@@ -5,7 +5,7 @@ const SaveButton = ({
 }) => {
   return (
     <button
-      className="px-5 py-3 text-white rounded-full bg-slate-700 hover:bg-slate-900 shadow-button"
+      className="px-5 py-3 z-50 text-white rounded-full bg-slate-700 hover:bg-slate-900 shadow-button"
       onClick={handler}
     >
       Save
