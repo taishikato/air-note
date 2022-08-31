@@ -2,6 +2,10 @@
 
 set -e
 
+cd ./extension
+pnpm run build:extension
+cd ../
+
 rm -rf copy
 
 rm -rf ./extension/node_modules
