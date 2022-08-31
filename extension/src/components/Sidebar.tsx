@@ -66,7 +66,7 @@ const Sidebar = ({
   };
 
   return (
-    <aside className="w-[290px] overflow-auto relative bg-slate-50 text-slate-400 font-medium">
+    <aside className="w-[250px] overflow-auto relative bg-slate-50 text-slate-400 font-medium">
       <button
         onClick={(e) => handleCreate(e)}
         className="font-semibold text-slate-500 flex items-center justify-center gap-x-2 w-full h-[80px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 shadow-border-b"
