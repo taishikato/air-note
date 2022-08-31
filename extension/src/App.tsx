@@ -1,6 +1,7 @@
 import { memo, useEffect, useState, useCallback, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import SaveButton from "./components/SaveButton";
 import Sidebar from "./components/Sidebar";
 import { v4 as uuidv4 } from "uuid";
@@ -130,7 +131,7 @@ function App() {
             ref={previewRef}
           >
             <div id="preview" className="h-full p-3 overflow-auto rounded-r-md">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                 {content}
               </ReactMarkdown>
             </div>
