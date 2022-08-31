@@ -46,7 +46,8 @@ const Sidebar = ({
   const handleDelete = (noteKey: string) => {
     if (!window.confirm("Do you really want to delete the note?")) return;
 
-    localStorage.removeItem(noteKey);
+    // localStorage.removeItem(noteKey);
+    chrome.storage.sync.remove(noteKey);
 
     const notes = getNoteList();
     setNoteList(notes);
