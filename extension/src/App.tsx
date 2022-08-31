@@ -49,8 +49,6 @@ function App() {
         return;
       }
 
-      console.log({ notes });
-
       setNoteList(notes);
       setNoteKey(notes[0].key);
       setContent(notes[0].content);
@@ -58,9 +56,6 @@ function App() {
 
     fetchNotes();
   }, []);
-
-  console.log({ noteKey });
-  console.log({ content });
 
   const handleOnChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
