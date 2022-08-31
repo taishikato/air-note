@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { memo } from "react";
-import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+import { IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
 import { getNoteList } from "../_utils/getNoteList";
 
@@ -67,13 +67,14 @@ const Sidebar = ({
 
   return (
     <aside className="w-[250px] overflow-auto relative bg-slate-50 text-slate-400 font-medium">
-      <button
-        onClick={(e) => handleCreate(e)}
-        className="font-semibold text-slate-500 flex items-center justify-center gap-x-2 w-full h-[80px] p-3 bg-white/60 backdrop-blur-sm hover:bg-slate-200 sticky top-0 left-0 shadow-border-b"
-      >
-        <IoCreateOutline />
-        Create
-      </button>
+      <div className="w-full bg-white/60 backdrop-blur-sm sticky top-0 left-0 shadow-border-b flex items-center justify-center py-4">
+        <button
+          onClick={(e) => handleCreate(e)}
+          className="text-sm px-5 py-2 font-medium text-slate-200 flex items-center justify-center gap-x-2 bg-slate-700 hover:bg-slate-900 rounded-full bg-transition"
+        >
+          Create
+        </button>
+      </div>
       {noteList.length > 0 ? (
         <ul>
           {noteList.map((note) => {
