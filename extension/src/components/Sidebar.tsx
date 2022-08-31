@@ -9,6 +9,7 @@ const Sidebar = ({
   handler,
   noteKey,
   setNoteKey,
+  setContent,
   setNoteList,
 }: {
   noteList: {
@@ -21,6 +22,7 @@ const Sidebar = ({
   ) => void;
   noteKey: string;
   setNoteKey: Dispatch<SetStateAction<string>>;
+  setContent: Dispatch<SetStateAction<string>>;
   setNoteList: (
     value: SetStateAction<
       {
@@ -37,19 +39,27 @@ const Sidebar = ({
 
     const newNoteKey = uuidv4();
 
-    // localStorage.setItem(newNoteKey, "");
-    await chrome.storage.sync.set({ [newNoteKey]: "" });
+    if (import.meta.env.PROD) {
+      await chrome.storage.sync.set({ [newNoteKey]: "" });
+    } else {
+      localStorage.setItem(newNoteKey, "");
+    }
+
     setNoteKey(newNoteKey);
 
     const notes = await getNoteList();
     setNoteList(notes);
+    setContent("");
   };
 
   const handleDelete = async (noteKey: string) => {
     if (!window.confirm("Do you really want to delete the note?")) return;
 
-    // localStorage.removeItem(noteKey);
-    await chrome.storage.sync.remove(noteKey);
+    if (import.meta.env.PROD) {
+      await chrome.storage.sync.remove(noteKey);
+    } else {
+      localStorage.removeItem(noteKey);
+    }
 
     const notes = await getNoteList();
     setNoteList(notes);

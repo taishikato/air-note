@@ -27,8 +27,11 @@ function App() {
 
     const newNoteKey = uuidv4();
 
-    // localStorage.setItem(newNoteKey, "");
-    await chrome.storage.sync.set({ [newNoteKey]: "" });
+    if (import.meta.env.PROD) {
+      await chrome.storage.sync.set({ [newNoteKey]: "" });
+    } else {
+      localStorage.setItem(newNoteKey, "");
+    }
 
     setNoteKey(newNoteKey);
   };
@@ -71,8 +74,12 @@ function App() {
     async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      // localStorage.setItem(noteKey, content);
-      await chrome.storage.sync.set({ [noteKey]: content });
+      if (import.meta.env.PROD) {
+        await chrome.storage.sync.set({ [noteKey]: content });
+      } else {
+        localStorage.setItem(noteKey, content);
+      }
+
       const notes = await getNoteList();
 
       setNoteList(notes);
@@ -84,9 +91,14 @@ function App() {
     async (e: React.MouseEvent<HTMLLIElement, MouseEvent>, key: string) => {
       e.preventDefault();
 
-      // const content = localStorage.getItem(key);
-      const content = await chrome.storage.sync.get(key);
-      setContent(content[key] ?? "");
+      let content;
+      if (import.meta.env.PROD) {
+        const keyValue = await chrome.storage.sync.get(key);
+        content = keyValue[key];
+      } else {
+        content = localStorage.getItem(key);
+      }
+      setContent(content ?? "");
       setNoteKey(key);
     },
     [setContent, setNoteKey]
@@ -101,6 +113,7 @@ function App() {
           handler={showPastNote}
           noteKey={noteKey}
           setNoteKey={setNoteKey}
+          setContent={setContent}
           setNoteList={setNoteList}
         />
         <main className="flex items-stretch flex-1 rounded">
