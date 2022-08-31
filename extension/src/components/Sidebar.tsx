@@ -3,6 +3,7 @@ import { memo } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
 import { getNoteList } from "../_utils/getNoteList";
+import getUnixTime from "../_utils/getUnixTime";
 
 const Sidebar = ({
   noteList,
@@ -39,10 +40,17 @@ const Sidebar = ({
 
     const newNoteKey = uuidv4();
 
+    const timestamp = getUnixTime();
+
     if (import.meta.env.PROD) {
-      await chrome.storage.sync.set({ [newNoteKey]: "" });
+      await chrome.storage.sync.set({
+        [newNoteKey]: { content: "", created_at: timestamp },
+      });
     } else {
-      localStorage.setItem(newNoteKey, "");
+      localStorage.setItem(
+        newNoteKey,
+        JSON.stringify({ content: "", created_at: timestamp })
+      );
     }
 
     setNoteKey(newNoteKey);
