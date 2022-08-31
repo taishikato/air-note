@@ -4,7 +4,28 @@
 }
 
 .note-list-item:hover {
+	color: rgb(100 116 139);
 	svg {
 		display: block;
 	}
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(148 163 184);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(100 116 139);
 }

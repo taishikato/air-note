@@ -115,7 +115,7 @@ function App() {
         <main className="flex items-stretch flex-1 rounded">
           <div className="flex-1 bg-slate-200">
             <textarea
-              className="block w-full h-full p-3 text-white bg-slate-800 focus:outline-none"
+              className="block w-full h-full p-3 focus:outline-none"
               onChange={(e) => handleOnChange(e)}
               placeholder="jot down whatever you want..."
               value={content}
@@ -125,7 +125,10 @@ function App() {
             className={`flex-1 ${showPre ? "block" : "hidden"}`}
             ref={previewRef}
           >
-            <div id="preview" className="h-full p-3 overflow-auto rounded-r-md">
+            <div
+              id="preview"
+              className="h-full p-3 overflow-auto rounded-r-md border-l border-slate-200"
+            >
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                 {content}
               </ReactMarkdown>
