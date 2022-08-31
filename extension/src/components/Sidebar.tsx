@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import type { Note, NoteProperty } from "../types";
 import { memo } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
@@ -44,12 +45,20 @@ const Sidebar = ({
 
     if (import.meta.env.PROD) {
       await chrome.storage.sync.set({
-        [newNoteKey]: { content: "", created_at: timestamp },
-      });
+        [newNoteKey]: {
+          content: "",
+          created_at: timestamp,
+          modified_at: timestamp,
+        },
+      } as Note);
     } else {
       localStorage.setItem(
         newNoteKey,
-        JSON.stringify({ content: "", created_at: timestamp })
+        JSON.stringify({
+          content: "",
+          created_at: timestamp,
+          modified_at: timestamp,
+        } as NoteProperty)
       );
     }
 

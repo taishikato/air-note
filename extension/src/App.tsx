@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getNoteList } from "./_utils/getNoteList";
 import TogglePreviewButton from "./components/TogglePreviewButton";
 import getUnixTime from "./_utils/getUnixTime";
+import type { Note, NoteProperty } from "./types";
 
 function App() {
   const [content, setContent] = useState("");
@@ -32,12 +33,20 @@ function App() {
 
     if (import.meta.env.PROD) {
       await chrome.storage.sync.set({
-        [newNoteKey]: { content: "", created_at: timestamp },
-      });
+        [newNoteKey]: {
+          content: "",
+          created_at: timestamp,
+          modified_at: timestamp,
+        },
+      } as Note);
     } else {
       localStorage.setItem(
         newNoteKey,
-        JSON.stringify({ content: "", created_at: timestamp })
+        JSON.stringify({
+          content: "",
+          created_at: timestamp,
+          modified_at: timestamp,
+        } as NoteProperty)
       );
     }
 
@@ -77,11 +86,17 @@ function App() {
     async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
+      const modifiedTimestamp = getUnixTime();
+
       if (import.meta.env.PROD) {
-        const note = await chrome.storage.sync.get(noteKey);
+        const note: Note = await chrome.storage.sync.get(noteKey);
         await chrome.storage.sync.set({
-          [noteKey]: { content, created_at: note[noteKey].created_at },
-        });
+          [noteKey]: {
+            content,
+            created_at: note[noteKey].created_at,
+            modified_at: modifiedTimestamp,
+          },
+        } as Note);
       } else {
         const note = localStorage.getItem(noteKey);
         const jsonNote = JSON.parse(note ?? "");
@@ -90,7 +105,8 @@ function App() {
           JSON.stringify({
             content,
             created_at: jsonNote.created_at,
-          })
+            modified_at: modifiedTimestamp,
+          } as NoteProperty)
         );
       }
 
@@ -105,14 +121,14 @@ function App() {
     async (e: React.MouseEvent<HTMLLIElement, MouseEvent>, key: string) => {
       e.preventDefault();
 
-      let content;
+      let content: string;
       if (import.meta.env.PROD) {
-        const keyValue = await chrome.storage.sync.get(key);
-        content = keyValue[key];
+        const keyValue: Note = await chrome.storage.sync.get(key);
+        content = keyValue[key].content;
       } else {
-        content = localStorage.getItem(key);
+        content = localStorage.getItem(key) ?? "";
       }
-      setContent(content ?? "");
+      setContent(JSON.parse(content).content ?? "");
       setNoteKey(key);
     },
     [setContent, setNoteKey]
