@@ -30,26 +30,28 @@ const Sidebar = ({
     >
   ) => void;
 }) => {
-  const handleCreate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCreate = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     const newNoteKey = uuidv4();
 
     // localStorage.setItem(newNoteKey, "");
-    chrome.storage.sync.set({ newNoteKey: "" });
+    await chrome.storage.sync.set({ [newNoteKey]: "" });
     setNoteKey(newNoteKey);
 
-    const notes = getNoteList();
+    const notes = await getNoteList();
     setNoteList(notes);
   };
 
-  const handleDelete = (noteKey: string) => {
+  const handleDelete = async (noteKey: string) => {
     if (!window.confirm("Do you really want to delete the note?")) return;
 
     // localStorage.removeItem(noteKey);
-    chrome.storage.sync.remove(noteKey);
+    await chrome.storage.sync.remove(noteKey);
 
-    const notes = getNoteList();
+    const notes = await getNoteList();
     setNoteList(notes);
   };
 

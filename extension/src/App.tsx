@@ -20,7 +20,7 @@ function App() {
 
   const previewRef = useRef<any>(null);
 
-  const handleCreate = (
+  const handleCreate = async (
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e?.preventDefault();
@@ -28,26 +28,35 @@ function App() {
     const newNoteKey = uuidv4();
 
     // localStorage.setItem(newNoteKey, "");
-    chrome.storage.sync.set({ newNoteKey: "" });
+    await chrome.storage.sync.set({ [newNoteKey]: "" });
 
     setNoteKey(newNoteKey);
   };
 
   useEffect(() => {
-    const notes = getNoteList();
+    const fetchNotes = async () => {
+      const notes = await getNoteList();
 
-    if (notes.length === 0) {
-      handleCreate();
-      const notes = getNoteList();
+      if (notes.length === 0) {
+        handleCreate();
+        const notes = await getNoteList();
+        setNoteList(notes);
+        setContent(notes[0].content);
+        return;
+      }
+
+      console.log({ notes });
+
       setNoteList(notes);
+      setNoteKey(notes[0].key);
       setContent(notes[0].content);
-      return;
-    }
+    };
 
-    setNoteList(notes);
-    setNoteKey(notes[0].key);
-    setContent(notes[0].content);
+    fetchNotes();
   }, []);
+
+  console.log({ noteKey });
+  console.log({ content });
 
   const handleOnChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -59,12 +68,12 @@ function App() {
   );
 
   const handleSave = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
       // localStorage.setItem(noteKey, content);
-      chrome.storage.sync.set({ newNoteKey: content });
-      const notes = getNoteList();
+      await chrome.storage.sync.set({ [noteKey]: content });
+      const notes = await getNoteList();
 
       setNoteList(notes);
     },
@@ -72,18 +81,19 @@ function App() {
   );
 
   const showPastNote = useCallback(
-    (e: React.MouseEvent<HTMLLIElement, MouseEvent>, key: string) => {
+    async (e: React.MouseEvent<HTMLLIElement, MouseEvent>, key: string) => {
       e.preventDefault();
 
-      const content = localStorage.getItem(key);
-      setContent(content ?? "");
+      // const content = localStorage.getItem(key);
+      const content = await chrome.storage.sync.get(key);
+      setContent(content[key] ?? "");
       setNoteKey(key);
     },
     [setContent, setNoteKey]
   );
 
   return (
-    <div className="relative flex flex-col items-center justify-center h-full min-h-screen">
+    <div className="relative flex flex-col items-center justify-center h-full min-h-screen text-base">
       <TogglePreviewButton showPre={showPre} setShowPre={setShowPre} />
       <div className="flex w-full h-screen">
         <Sidebar
