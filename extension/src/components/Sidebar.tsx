@@ -83,7 +83,7 @@ const Sidebar = ({
   };
 
   return (
-    <aside className="w-[250px] overflow-auto relative bg-slate-50 text-slate-400 font-medium">
+    <aside className="w-[250px] overflow-auto relative text-slate-400 font-medium">
       <div className="w-full bg-white/60 backdrop-blur-sm sticky top-0 left-0 shadow-border-b flex items-center justify-center py-4">
         <button
           onClick={(e) => handleCreate(e)}
@@ -101,11 +101,11 @@ const Sidebar = ({
                 onClick={(e) => handler(e, note.key)}
                 className={`flex items-center justify-between gap-x-2 w-full h-[50px] p-3 mb-1 box-border cursor-pointer note-list-item ${
                   noteKey === note.key
-                    ? "text-slate-500 bg-slate-200 hover:bg-slate-200"
-                    : "hover:bg-slate-100"
+                    ? "text-slate-400 bg-slate-200 hover:bg-slate-200"
+                    : "text-slate-300 hover:bg-slate-100"
                 }`}
               >
-                {note.content.slice(0, 10) || "No Title"}
+                {note.content?.slice(0, 10) || "No Title"}
                 <IoTrashOutline
                   className="hidden"
                   onClick={(e) => {
