@@ -1,9 +1,9 @@
-import type { Note, NoteProperty } from "../types";
+import type { Note, NoteList } from "../types";
 
 const isProd = import.meta.env.PROD;
 
 export const getNoteList = isProd
-  ? async (): Promise<NoteProperty[]> => {
+  ? async (): Promise<NoteList[]> => {
       const notes: Note = await chrome.storage.sync.get(null);
       return Object.keys(notes)
         .map((key) => ({
@@ -14,7 +14,7 @@ export const getNoteList = isProd
         }))
         .sort((a, b) => b.modified_at - a.modified_at);
     }
-  : (): NoteProperty[] => {
+  : (): NoteList[] => {
       if (Object.keys(localStorage).length === 0) return [];
 
       return Object.keys(localStorage)

@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { Note, NoteProperty } from "../types";
+import type { Note, NoteProperty, NoteList } from "../types";
 import { memo } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
@@ -14,10 +14,7 @@ const Sidebar = ({
   setContent,
   setNoteList,
 }: {
-  noteList: {
-    key: string;
-    content: any;
-  }[];
+  noteList: NoteList[];
   handler: (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     key: string
@@ -25,14 +22,7 @@ const Sidebar = ({
   noteKey: string;
   setNoteKey: Dispatch<SetStateAction<string>>;
   setContent: Dispatch<SetStateAction<string>>;
-  setNoteList: (
-    value: SetStateAction<
-      {
-        key: string;
-        content: any;
-      }[]
-    >
-  ) => void;
+  setNoteList: (value: SetStateAction<NoteList[]>) => void;
 }) => {
   const handleCreate = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -79,6 +69,8 @@ const Sidebar = ({
     }
 
     const notes = await getNoteList();
+    console.log({ notes });
+
     setNoteList(notes);
   };
 

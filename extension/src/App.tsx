@@ -8,17 +8,12 @@ import { v4 as uuidv4 } from "uuid";
 import { getNoteList } from "./_utils/getNoteList";
 import TogglePreviewButton from "./components/TogglePreviewButton";
 import getUnixTime from "./_utils/getUnixTime";
-import type { Note, NoteProperty } from "./types";
+import type { Note, NoteProperty, NoteList } from "./types";
 
 function App() {
   const [content, setContent] = useState("");
   const [noteKey, setNoteKey] = useState("");
-  const [noteList, setNoteList] = useState<
-    {
-      key: string;
-      content: any;
-    }[]
-  >([]);
+  const [noteList, setNoteList] = useState<NoteList[]>([]);
   const [showPre, setShowPre] = useState(true);
 
   const previewRef = useRef<any>(null);
@@ -124,15 +119,21 @@ function App() {
       let content: string;
       if (import.meta.env.PROD) {
         const keyValue: Note = await chrome.storage.sync.get(key);
+
         content = keyValue[key].content;
+        setContent(content ?? "");
       } else {
         content = localStorage.getItem(key) ?? "";
+        if (content === "" || content == null) return;
+
+        setContent(JSON.parse(content).content ?? "");
       }
-      setContent(JSON.parse(content).content ?? "");
       setNoteKey(key);
     },
     [setContent, setNoteKey]
   );
+
+  console.log({ noteList });
 
   return (
     <div className="relative flex flex-col items-center justify-center h-full min-h-screen text-base">
@@ -149,7 +150,7 @@ function App() {
         <main className="flex flex-1 rounded z-10 shadow-border-l">
           <div className="flex-1 bg-slate-200">
             <textarea
-              className="block w-full h-full p-3 focus:outline-none"
+              className="block w-full h-full p-6 focus:outline-none"
               onChange={(e) => handleOnChange(e)}
               placeholder="jot down whatever you want..."
               value={content}
@@ -161,7 +162,7 @@ function App() {
           >
             <div
               id="preview"
-              className="h-full p-3 overflow-auto border-l border-slate-200"
+              className="h-full p-6 overflow-auto border-l border-slate-200"
             >
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                 {content}

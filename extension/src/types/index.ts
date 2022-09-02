@@ -1,3 +1,7 @@
+export interface NoteList extends NoteProperty {
+  key: string;
+}
+
 export type Note = {
   [key: string]: NoteProperty;
 };
