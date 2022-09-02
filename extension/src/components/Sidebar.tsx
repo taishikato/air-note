@@ -89,7 +89,7 @@ const Sidebar = ({
           onClick={(e) => handleCreate(e)}
           className="text-sm px-5 py-2 font-medium text-slate-200 flex items-center justify-center gap-x-2 bg-slate-700 hover:bg-slate-900 rounded-full bg-transition"
         >
-          Create
+          Create a new note
         </button>
       </div>
       {noteList.length > 0 ? (
