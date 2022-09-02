@@ -6,9 +6,12 @@
 	transition: background-color 300ms;
 }
 
-.note-list-item:hover {
-	svg {
-		display: block;
+.note-list-item{
+	transition: background-color 300ms;
+	&:hover {
+		svg {
+			display: block;
+		}
 	}
 }
 
