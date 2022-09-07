@@ -133,8 +133,6 @@ function App() {
     [setContent, setNoteKey]
   );
 
-  console.log({ noteList });
-
   return (
     <div className="relative flex flex-col items-center justify-center h-full min-h-screen text-base">
       <TogglePreviewButton showPre={showPre} setShowPre={setShowPre} />

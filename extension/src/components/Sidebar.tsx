@@ -69,7 +69,6 @@ const Sidebar = ({
     }
 
     const notes = await getNoteList();
-    console.log({ notes });
 
     setNoteList(notes);
   };
