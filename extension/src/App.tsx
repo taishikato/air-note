@@ -172,11 +172,7 @@ function App() {
         </main>
       </div>
       <div className="absolute flex justify-end mt-6 bottom-6 right-6">
-        <SaveButton
-          handler={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-            handleSave(e)
-          }
-        />
+        <SaveButton handler={handleSave} />
       </div>
     </div>
   );

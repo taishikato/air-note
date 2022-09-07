@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const SaveButton = ({
   handler,
 }: {
@@ -13,4 +15,4 @@ const SaveButton = ({
   );
 };
 
-export default SaveButton;
+export default memo(SaveButton);
